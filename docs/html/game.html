@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+		<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript" charset="utf-8"></script> -->
+
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<!-- <table border="" cellspacing="" cellpadding="">
+				<tr v-for="item,index in numberList[number]">
+					<td v-for="itemm,indexx in item">
+						{{itemm}}
+					</td>
+				</tr>
+			</table> -->
+			<p style="text-align: center;font-weight: bold;padding: 50px 0">请想象一个60以内的数字
+				<br>
+				如果下列数组中有请点击Yes 否则No
+				<br>
+				<span style="color:red">请一定看仔细是否有你想的数字!!!</span>
+				<br>
+				步骤:{{number}}/6
+			</p>
+			<table border="" cellspacing="" cellpadding="" v-for="item,index in arr" v-if="index == name">
+				<tr v-for="itemm,indexx in item">
+					<td v-for="itemmm,indexxx in itemm">
+						{{itemmm}}
+					</td>
+				</tr>
+			</table>
+			<div style="margin: auto;width: 100%;text-align: center;">
+				<!-- <button @click="change()">下一步</button> -->
+
+			</div>
+			<div style="text-align: center;margin-top: 50px;">
+				<el-row v-if="number <= 5">
+					<el-button @click="yes" type="success" plain>Yes</el-button>
+					<el-button @click="no" type="danger" plain>No</el-button>
+				</el-row>
+				<el-row v-else>
+					  <el-button @click="clear" type="primary">重新开始</el-button>
+				</el-row>
+			</div>
+		</div>
+
+
+	</body>
+</html>
+<script type="text/javascript">
+	new Vue({
+		el: "#app",
+		data() {
+			return {
+				sun: 0,
+				number: 0,
+				name: 'one',
+				numberArry: [1, 8, 16, 2, 4, 32],
+				arr: {
+					one: [
+						[1, 11, 21, 31, 41, 51],
+						[3, 13, 23, 33, 43, 53],
+						[5, 15, 25, 35, 45, 55],
+						[7, 17, 27, 37, 47, 57],
+						[9, 19, 29, 39, 49, 59]
+					],
+					two: [
+						[8, 13, 26, 31, 44, 57],
+						[9, 14, 27, 40, 45, 58],
+						[10, 15, 28, 41, 46, 59],
+						[11, 24, 29, 42, 47, 60],
+						[12, 25, 30, 43, 56, '']
+					],
+					three: [
+						[16, 21, 26, 31, 52, 57],
+						[17, 22, 27, 48, 53, 58],
+						[18, 23, 28, 49, 54, 59],
+						[19, 24, 29, 50, 55, 60],
+						[20, 25, 30, 51, 56, '']
+					],
+					four: [
+						[2, 11, 22, 31, 42, 51],
+						[3, 14, 23, 34, 43, 54],
+						[6, 15, 26, 35, 46, 55],
+						[7, 18, 27, 38, 47, 58],
+						[10, 19, 30, 39, 50, 59]
+					],
+					five: [
+						[4, 13, 22, 31, 44, 53],
+						[5, 14, 23, 36, 45, 54],
+						[6, 15, 28, 37, 46, 55],
+						[7, 20, 29, 38, 47, 60],
+						[12, 21, 30, 39, 52, '']
+					],
+					six: [
+						[32, 37, 42, 47, 52, 57],
+						[33, 28, 43, 48, 53, 58],
+						[34, 39, 44, 49, 54, 59],
+						[35, 40, 45, 50, 55, 60],
+						[46, 41, 46, 51, 56, '']
+					]
+				}
+			}
+		},
+		watch: {
+			number: function(val) {
+				// alert(val)
+				if (this.number == 0) {
+					this.name = "one"
+				} else if (this.number == 1) {
+					this.name = "two"
+				} else if (this.number == 2) {
+					this.name = "three"
+				} else if (this.number == 3) {
+					this.name = "four"
+				} else if (this.number == 4) {
+					this.name = "five"
+				} else if (this.number == 5) {
+					this.name = "six"
+				}
+			}
+		},
+		methods: {
+			clear(){
+				this.number = 0
+				this.sun = 0
+			},
+			yes() {
+				if (this.number == 5) {
+					const loading = this.$loading({
+						lock: true,
+						text: '正在连接你的大脑...',
+						spinner: 'el-icon-loading',
+						background: 'rgba(0, 0, 0, 0.7)'
+					});
+					setTimeout(() => {
+						loading.close();
+						this.$message({
+							message: '没错你想象的数字就是' + this.sun,
+							type: 'success'
+						});
+					}, 2000);
+				}
+				this.sun += this.numberArry[this.number]
+				this.number++
+			},
+			no() {
+				if (this.number == 5) {
+					const loading = this.$loading({
+						lock: true,
+						text: '正在连接你的大脑...',
+						spinner: 'el-icon-loading',
+						background: 'rgba(0, 0, 0, 0.7)'
+					});
+					setTimeout(() => {
+						loading.close();
+						this.$message({
+							message: '没错你想象的数字就是' + this.sun,
+							type: 'success'
+						});
+					}, 2000);
+				}
+				this.number++
+			}
+		}
+	})
+</script>
+
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	table {
+		margin: auto;
+	}
+
+	table tr td {
+		padding: 10px;
+	}
+</style>
